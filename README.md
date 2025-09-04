@@ -1,6 +1,6 @@
 # Cloud Sentiment Analyzer
 
-BERT-based sentiment analysis for Reddit discussions about cloud providers (AWS, Azure, Google Cloud, etc.), categorized by business aspects (cost, performance, security, scalability, support). Exports clean CSVs and includes performance stats.
+BERT-based sentiment analysis for Reddit discussions about cloud providers (AWS, Azure, Google Cloud, etc.), categorized by business aspects (cost, performance, security, scalability, support). Exports clean CSVs and includes performance stats. **NEW: Provider-aware comparative sentiment analysis for data-driven cloud provider insights.**
 
 ## 1) Prerequisites
 
@@ -64,6 +64,31 @@ Outputs created:
 - sentiment_analysis_results.csv
 - performance_metrics.csv
 - detailed_sentiment_data.csv
+- **comparative_sentiment_analysis.csv** (NEW: Provider rankings and comparative metrics)
+- **provider_sentiment_matrix.csv** (NEW: Sentiment score matrix by provider/aspect)
+
+### Comparative Analysis Features (NEW)
+
+The analyzer now includes advanced comparative sentiment analysis:
+
+- **Provider Rankings**: See which cloud provider performs best in each aspect (cost, performance, etc.)
+- **Overall Scores**: Weighted rankings across all business aspects
+- **Sentiment Matrix**: Visual comparison of sentiment scores
+- **Automated Insights**: Key findings and recommendations
+- **Statistical Analysis**: Confidence intervals and significance testing
+
+Sample console output:
+```
+OVERALL PROVIDER RANKINGS:
+ 1. Azure               (Score: +0.245)
+ 2. Google Cloud        (Score: +0.123)
+ 3. AWS                 (Score: -0.089)
+
+KEY INSIGHTS:
+• Cost: Azure leads with 67.3% positive sentiment vs AWS at 34.2%
+• Performance: AWS dominates with 78.9% positive sentiment
+• Most controversial aspect: Security (highest sentiment variance)
+```
 
 ## 4) Create your GitHub repo and push your code
 
