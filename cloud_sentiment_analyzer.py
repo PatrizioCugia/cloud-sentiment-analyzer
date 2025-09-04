@@ -5,6 +5,24 @@ import nltk
 import praw
 import pandas as pd
 from transformers import pipeline
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Centralized environment variable loading and validation
+def load_environment_variables():
+    """Load and validate required environment variables."""
+    reddit_client_id = os.environ.get("REDDIT_CLIENT_ID")
+    reddit_client_secret = os.environ.get("REDDIT_CLIENT_SECRET")
+    reddit_user_agent = os.environ.get("REDDIT_USER_AGENT", "cloud-analyzer:v1.0 (by u/unknown)")
+    
+    if not reddit_client_id or not reddit_client_secret:
+        print("FATAL: Missing Reddit credentials. Set REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET in your environment.")
+        print("Tip: Copy .env.example to .env and fill in your Reddit API credentials.")
+        raise SystemExit(1)
+    
+    return reddit_client_id, reddit_client_secret, reddit_user_agent
 
 # Ensure NLTK punkt is available
 try:
@@ -29,14 +47,8 @@ except Exception as e:
     print(f"FATAL: Unable to load BERT model: {e}")
     raise SystemExit(1)
 
-# 2) Reddit credentials from environment variables (do NOT hardcode secrets)
-REDDIT_CLIENT_ID = os.environ.get("REDDIT_CLIENT_ID")
-REDDIT_CLIENT_SECRET = os.environ.get("REDDIT_CLIENT_SECRET")
-REDDIT_USER_AGENT = os.environ.get("REDDIT_USER_AGENT", "cloud-analyzer:v1.0 (by u/unknown)")
-
-if not REDDIT_CLIENT_ID or not REDDIT_CLIENT_SECRET:
-    print("FATAL: Missing Reddit credentials. Set REDDIT_CLIENT_ID and REDDIT_CLIENT_SECRET in your environment.")
-    raise SystemExit(1)
+# 2) Load Reddit credentials from environment variables (do NOT hardcode secrets)
+REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_USER_AGENT = load_environment_variables()
 
 # 3) Reddit API client
 reddit = praw.Reddit(
