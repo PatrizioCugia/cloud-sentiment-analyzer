@@ -107,5 +107,19 @@ git commit -m "Describe your change"
 git push
 ```
 
+## 7) Regenerating slide PDF locally (optional)
+
+To regenerate the presentation PDF from the Markdown source:
+
+```bash
+# Install Marp CLI globally
+npm install -g @marp-team/marp-cli
+
+# Generate PDF from Markdown
+marp slides/cloud-providers-sentiment-analysis.md --pdf --allow-local-files -o slides/cloud-providers-sentiment-analysis.pdf
+```
+
+The GitHub Actions workflow automatically builds the PDF when the Markdown file is updated.
+
 ## License
 MIT
