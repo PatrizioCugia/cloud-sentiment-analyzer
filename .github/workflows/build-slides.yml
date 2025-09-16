@@ -1,0 +1,27 @@
+name: Build slides to PDF
+
+on:
+  push:
+    paths:
+      - 'slides/cloud-providers-sentiment-analysis.md'
+      - '.github/workflows/build-slides.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm install -g @marp-team/marp-cli
+      - run: marp slides/cloud-providers-sentiment-analysis.md --pdf --allow-local-files -o slides/cloud-providers-sentiment-analysis.pdf
+      - name: Commit slide PDF
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'build(slides): generate PDF for Cloud Providers — Sentiment Analysis'
+          file_pattern: 'slides/cloud-providers-sentiment-analysis.pdf'
