@@ -5,6 +5,7 @@ import nltk
 import praw
 import pandas as pd
 from transformers import pipeline
+from comparative_sentiment import postprocess_sentiment_results
 
 # Ensure NLTK punkt is available
 try:
@@ -281,5 +282,46 @@ for provider in providers:
 df_detailed = pd.DataFrame(detailed_rows)
 if not df_detailed.empty:
     df_detailed.to_csv("detailed_sentiment_data.csv", index=False)
+
+# Comparative sentiment analysis
+print("\nPerforming comparative sentiment analysis...")
+comparative_results = postprocess_sentiment_results(results)
+
+# Export comparative analysis results
+if comparative_results['comparative_summary'] is not None and not comparative_results['comparative_summary'].empty:
+    comparative_results['comparative_summary'].to_csv("comparative_sentiment_analysis.csv", index=False)
+    print("✓ Exported comparative_sentiment_analysis.csv")
+
+if comparative_results['comparison_matrix'] is not None and not comparative_results['comparison_matrix'].empty:
+    comparative_results['comparison_matrix'].to_csv("provider_sentiment_matrix.csv", index=True)
+    print("✓ Exported provider_sentiment_matrix.csv")
+
+# Display comparative insights
+print("\n" + "=" * 70)
+print("COMPARATIVE SENTIMENT ANALYSIS INSIGHTS")
+print("=" * 70)
+
+# Overall provider rankings
+overall_rankings = comparative_results['overall_rankings']
+if overall_rankings:
+    print("\nOVERALL PROVIDER RANKINGS:")
+    for i, (provider, score) in enumerate(overall_rankings, 1):
+        print(f"{i:2d}. {provider:<20} (Score: {score:+.3f})")
+
+# Aspect-specific insights
+insights = comparative_results['insights']
+if insights:
+    print("\nKEY INSIGHTS:")
+    for insight in insights:
+        print(f"• {insight}")
+
+# Best/worst providers by aspect
+aspect_rankings = comparative_results['aspect_rankings']
+if aspect_rankings:
+    print("\nBEST PERFORMERS BY ASPECT:")
+    for aspect, data in aspect_rankings.items():
+        if data['best_provider']:
+            best_score = data['provider_scores'][data['best_provider']]['sentiment_score']
+            print(f"• {aspect.title():<12}: {data['best_provider']} (Score: {best_score:+.3f})")
 
 print("Done.")
