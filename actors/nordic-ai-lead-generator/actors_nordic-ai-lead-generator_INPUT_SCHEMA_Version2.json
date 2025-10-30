@@ -1,0 +1,72 @@
+{
+  "title": "Nordic AI Lead Generation Input",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "searchQuery": {
+      "title": "Search Query",
+      "type": "string",
+      "description": "Keywords to search for (e.g., 'artificial intelligence machine learning')",
+      "default": "artificial intelligence machine learning",
+      "editor": "textfield"
+    },
+    "locations": {
+      "title": "Nordic Locations",
+      "type": "array",
+      "description": "Nordic countries to search in",
+      "default": ["Denmark", "Sweden", "Norway", "Finland"],
+      "editor": "json"
+    },
+    "maxCompanies": {
+      "title": "Max Companies to Discover",
+      "type": "integer",
+      "description": "Maximum number of companies to discover on LinkedIn",
+      "default": 20,
+      "minimum": 1,
+      "maximum": 100
+    },
+    "numTargets": {
+      "title": "Number of Target Companies",
+      "type": "integer",
+      "description": "Number of companies to fully process and generate strategies for",
+      "default": 5,
+      "minimum": 1,
+      "maximum": 50
+    },
+    "apolloApiKey": {
+      "title": "Apollo.io API Key",
+      "type": "string",
+      "description": "Your Apollo.io API key for enrichment",
+      "editor": "textfield",
+      "isSecret": true
+    },
+    "geminiApiKey": {
+      "title": "Gemini API Key",
+      "type": "string",
+      "description": "Google Gemini API key for LLM analysis",
+      "editor": "textfield",
+      "isSecret": true
+    },
+    "maxContactsPerCompany": {
+      "title": "Max Contacts Per Company",
+      "type": "integer",
+      "description": "Maximum number of contacts to find per company",
+      "default": 3,
+      "minimum": 1,
+      "maximum": 10
+    },
+    "enableApolloEnrichment": {
+      "title": "Enable Apollo Enrichment",
+      "type": "boolean",
+      "description": "Enable Apollo.io enrichment (requires API key)",
+      "default": true
+    },
+    "enableContactFinding": {
+      "title": "Enable Contact Finding",
+      "type": "boolean",
+      "description": "Enable contact finding via Apollo (requires API key)",
+      "default": true
+    }
+  },
+  "required": ["searchQuery", "geminiApiKey"]
+}
